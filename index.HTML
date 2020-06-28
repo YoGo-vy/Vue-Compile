@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 插值绑定 -->
+      <p>{{name}}</p>
+      <!-- 指令解析 -->
+      <p v-text="name"></p>
+      <p>{{age}}</p>
+      <p>
+        {{doubleAge}}
+      </p>
+      <!-- 双向绑定 -->
+      <input type="text" v-model="name" />
+      <!-- 事件处理 -->
+      <button @click="changeName">呵呵</button>
+      <!-- html内容解析 -->
+      <div v-html="html"></div>
+    </div>
+    <script src="./compile.js"></script>
+    <script src="./kvue.js"></script>
+
+    <script>
+      const kaikeba = new KVue({
+        el: "#app",
+        data: {
+          name: "I am test.",
+          age: 12,
+          btn:'v-html解析button内容',
+          html: "<button @click='btnHandle'>{{btn}}</button>"
+        },
+        created() {
+          console.log("开始啦");
+          setTimeout(() => {
+            this.name = "我是测试";
+          }, 1500);
+        },
+        methods: {
+          changeName() {
+            this.name = "data的name被修改了";
+            // 已经代理$data中的数据到Vue实例上
+            this.$data.age = 1;
+          },
+          btnHandle(){
+            this.btn = 'v-html内容修改了'
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
